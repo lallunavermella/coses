@@ -1,0 +1,72 @@
+<html lang="es">
+
+<head>
+  <title>plantilla</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="autor" />
+  <meta name="description" content="descripción página">
+  <meta name="robots" content="index,follow">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.0/leaflet.css" />
+  <link rel="stylesheet" href="css/L.Control.MousePosition.css" />
+  <style>
+    body {
+      margin: 0;
+    }
+
+    #map {
+      height: 100%;
+      width: 100%;
+      background-color: #ffffff
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.0/leaflet.js"></script>
+  <script src="js/L.Control.MousePosition.js"></script>
+
+  <script>
+    var map, osm, controlCapas;
+
+    function init() {
+      map = L.map('map', {
+        center: [39.6863, 2.8382],
+        zoom: 8
+      });
+
+      L.control.mousePosition().addTo(map);
+
+      osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+
+        minZoom: 1,
+        attribution: '© OpenStreetMap'
+      }).addTo(map);
+
+      var Esri_WorldImagery =
+        L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+          attribution: 'Tiles © Esri'
+        });
+
+      var Hydda_RoadsAndLabels = L.tileLayer('https://{s}.tile.openstreetmap.se/hydda/roads_and_labels/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: 'OpenStreetMap'
+      });
+
+      var hibrida = L.layerGroup([Esri_WorldImagery, Hydda_RoadsAndLabels]);
+
+      var mapaBase = {
+        'Mapa': osm,
+        'Foto': hibrida
+
+      };
+
+      controlCapas = L.control.layers(mapaBase, null, { collapsed: false });
+      controlCapas.addTo(map)
+    }
+  </script>
+</head>
+
+<body onLoad="init()">
+  <div id="map"></div>
+</body>
+
+</html>
