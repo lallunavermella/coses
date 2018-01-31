@@ -1,0 +1,101 @@
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <title>
+      Ejemplo Resource Search API CKAN
+   </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+   <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <style>
+      #results {
+        width: 100%;
+        background-color: #f2f2f2;
+        margin: 5px;
+      }
+    </style>
+        </head>
+        <body>
+            <div class="container">
+                <h5>Resource Search example </h5>
+                <p>     Package Search <br>
+                  <a target="_blank" href="http://docs.ckan.org/en/latest/api/">http://docs.ckan.org/en/latest/api/</a>
+                </p>
+                <form>
+                <div class="form-group">
+                <label for="url_ckan">Url:</label>
+        
+                <select id="url_ckan" >
+                <option value="http://demo.ckan.org/api/3/action/resource_search?">ckan.org</option>
+                <option value="http://old.datahub.io/api/3/action/resource_search?">old.datahub.io</option>
+                <option value="http://opendata-ajuntament.barcelona.cat/data/api/3/action/resource_search?"> BCN </option>
+                </select>
+                </div>
+                <div class="form-group">
+                <label for="text_filter_ckan"> Filter <u>(name, descripton, format )</u></label>
+                <input type="text" class="form-control" id="text_filter_ckan" value="name:wifi" placeholder="text filter">
+                  </div>
+                </form>
+                <form class="form-inline">
+                <div class="form-group">
+                <label for="num_results_ckan">Num results</label>
+                <input type="number" size="3" class="form-control" id="num_results_ckan" value="5">
+                </div>
+        
+                </form>
+                <form>
+                <div class="form-group">
+                <button id="bt_send" type="button" class="btn btn-default btn-success">Send</button>
+                </div>
+                </form>
+                <hr>
+                <div id="results"></div>
+                <div id="mygrid" style="height: 500px"></div>
+        </div>
+        <script>
+            $.ajaxSetup({
+                    cache: true
+            });
+            $(document).ready(function() {
+              $('#bt_send').on('click', function() {
+                var data = {
+                        rows: $('#num_results_ckan').val(),
+                        query: $('#text_filter_ckan').val()
+                };
+                $.ajax({
+                  url: $('#url_ckan').val(),
+                  data: data,
+                  dataType: 'jsonp',
+                  success: function(data) {
+                    if (data.success) {
+                        $('#results').html('Total results found: ' + data.result.count);
+                        $('#mygrid').html('');
+    
+                        if (data.result.count >= 1) {
+                                $('#mygrid').append('<ul>');
+                                $.each(data.result.results, function(index, value) {
+                                        $('#mygrid').append('<li>' + value.name + ': <a href="' + value.url + '">' + value.url + '</a>');
+    
+                                        $('#mygrid').append('</li>');
+                                });
+                                $('#mygrid').append('</ul>');
+                        }
+    
+                    } else {
+                            $('#results').html("An error occured: " + data.error.message);
+                    }
+                  },
+                  error: function(xhr) {
+                          $('#results').html("An error occured: " + xhr.status + " " + xhr.statusText);
+                  }
+    
+                });
+    
+              })
+    
+            });
+    </script>
+        </body>
+</html>
