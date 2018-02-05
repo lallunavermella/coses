@@ -88,15 +88,16 @@
 
       var diasSemana = ["Dilluns", "Dimarts", "Dimecres", "Dijous", "Divendres", "Dissabte", "Diumenge"];
       var colorDia = ['#e26131', '#d0d378', '#78d3b0', '#78bcd3', '#9e78d3', '#d378cd', '#d37878'];
-
+    });
       mapboxgl.accessToken = 'pk.eyJ1IjoibGFsbHVuYXZlcm1lbGxhIiwiYSI6ImNqY2pnbmd4dTBmeTUycXBnc3F6aXh1Nm0ifQ.o_xtEvrZdwfy-WXP89rcsA';
       var map = new mapboxgl.Map({
         container: 'map',
-        style: 'mapbox://styles/lallunavermella/cjd3fgblv4a0y2sobhdxhsetc',
+        style: 'mapbox://styles/lallunavermella/cjd3fgblv4a0y2sobhdxhsetcmapbox://styles/lallunavermella/cjd3fgblv4a0y2sobhdxhsetc',
         center: [2.16859, 41.3954],
         zoom: 13,
         hash: true,
         pitch: 45
+      
       });
       map.addControl(new mapboxgl.NavigationControl());
 
@@ -141,36 +142,36 @@
           filtraDias($(this).val());
         });
 
-        map.on ('mousemove','accidentes',function(e){
+        map.on('mousemove', 'accidentes', function (e) {
           console.info(e)
 
-        
-
-      });//Fin load mapa
 
 
-      function creaLeyenda() {
-        for (i = 0; i < diasSemana.length; i++) {
-          jQuery('#legend').append(
-            '<div><span style="background-color:' + colorDia[i] + ';width:10px;height:10px;margin: 0 5px"></span>' + diasSemana[i] + '</div>'
-          );
+        });//Fin load mapa
+
+
+        function creaLeyenda() {
+          for (i = 0; i < diasSemana.length; i++) {
+            jQuery('#legend').append(
+              '<div><span style="background-color:' + colorDia[i] + ';width:10px;height:10px;margin: 0 5px"></span>' + diasSemana[i] + '</div>'
+            );
+          }
         }
-      }
 
 
-      function filtraDias(numdia) {
-        if (numdia == 7) {
-          var filters = ['!=', 'Descripcio_dia_setmana', ''];
-          map.setFilter('accidentes', filters);
-          document.getElementById('diasemanaid').textContent = 'Todos';
-        } else {
-          var filters = ['==', 'Descripcio_dia_setmana', diasSemana[numdia]];
-          map.setFilter('accidentes', filters);
-          document.getElementById('diasemanaid').textContent = diasSemana[numdia];
+        function filtraDias(numdia) {
+          if (numdia == 7) {
+            var filters = ['!=', 'Descripcio_dia_setmana', ''];
+            map.setFilter('accidentes', filters);
+            document.getElementById('diasemanaid').textContent = 'Todos';
+          } else {
+            var filters = ['==', 'Descripcio_dia_setmana', diasSemana[numdia]];
+            map.setFilter('accidentes', filters);
+            document.getElementById('diasemanaid').textContent = diasSemana[numdia];
+          }
         }
-      }
 
-    }); //fin ready Jquery
+      }); //fin ready Jquery
   </script>
 </head>
 
