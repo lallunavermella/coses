@@ -1,0 +1,200 @@
+<html lang="es">
+
+<head>
+    <title>Ejemplo 4 Layers</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="autor" />
+    <meta name="description" content="descripción página">
+    <meta name="robots" content="index,follow">
+    <link rel="stylesheet" href="Cesium/Widgets/widgets.css" />
+    <script src="Cesium/Cesium.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            overflow: hidden;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        #capas {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            width: auto;
+            height: auto;
+
+            background-color: white;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        ul {
+            padding: 10px !important
+        }
+
+        #bt_inicial {
+            font-size: 10px;
+            padding-left: 10px;
+            padding-top: 10px;
+            background-color: burlywood;
+            width: 40px;
+            height: 20px;
+            text-align: center;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        var map;
+        $(document).ready(function () {
+            map = new Cesium.Viewer('map', {
+
+                imageryProvider: new Cesium.MapboxImageryProvider({
+                    mapId: 'mapbox.satellite',
+                    accessToken: 'pk.eyJ1IjoibGFsbHVuYXZlcm1lbGxhIiwiYSI6ImNqY2pnbmd4dTBmeTUycXBnc3F6aXh1Nm0ifQ.o_xtEvrZdwfy-WXP89rcsA'
+                }),
+
+
+                timeline: false,
+                navigationHelpButton: true,
+                scene3DOnly: true,
+                fullscreenButton: true,
+                baseLayerPicker: false,
+                homeButton: false,
+                infoBox: true,
+                sceneModePicker: false,
+                animation: false,
+                geocoder: false,
+                sceneMode: Cesium.SceneMode.SCENE3D,
+                terrainProvider: new Cesium.CesiumTerrainProvider({
+                    url: 'https://assets.agi.com/stk-terrain/world',
+                    requestWaterMask: false,
+                    requestVertexNormals: true
+                })
+
+            });
+
+            map.camera.flyTo({
+                destination: Cesium.Cartesian3.fromDegrees(2.1806, 41.4003, 15000)
+            });
+
+
+
+            var overlay = map.imageryLayers;
+
+            var ortoICGC = overlay.addImageryProvider(new Cesium.createOpenStreetMapImageryProvider({
+                url: 'https://geoserveis.icgc.cat/icc_mapesmultibase/noutm/wmts/orto/GRID3857/',
+                fileExtension: 'jpeg',
+                maximumLevel: 19,
+                credit: 'Institut Cartogràfic i Geològic de Catalunya'
+            }));
+            ortoICGC.show = true;
+
+            var topoICGC = overlay.addImageryProvider(new Cesium.createOpenStreetMapImageryProvider({
+                url: 'https://geoserveis.icgc.cat/icc_mapesmultibase/noutm/wmts/topo/GRID3857/',
+                fileExtension: 'jpeg',
+                maximumLevel: 19,
+                credit: 'Institut Cartogràfic i Geològic de Catalunya'
+            }));
+            topoICGC.show = false;
+
+            var topo2ICGC = overlay.addImageryProvider(new Cesium.createOpenStreetMapImageryProvider({
+                url: 'https://tilemaps.icgc.cat/mapfactory/wmts/topo_suau/CAT3857/',
+                fileExtension: 'png',
+                maximumLevel: 19,
+                credit: 'Institut Cartogràfic i Geològic de Catalunya'
+            }));
+            topo2ICGC.show = false;
+
+            var orto46 = overlay.addImageryProvider(new Cesium.createOpenStreetMapImageryProvider({
+                url: 'https://tilemaps.icgc.cat/mapfactory/wmts/orto46/CAT3857/',
+                fileExtension: 'png',
+                maximumLevel: 17,
+                credit: 'Institut Cartogràfic i Geològic de Catalunya'
+            }));
+            orto46.show = false;
+
+
+
+            $('.chk_capes').on('click', function () {
+                var layer = $(this).val();
+                var estado = $(this).prop('checked');
+
+                if (layer == 'ortoICGC') {
+                    ortoICGC.show = estado;
+                } else if (layer == 'topoICGC') {
+                    topoICGC.show = estado;
+
+                } else if (layer == 'topo2ICGC') {
+                    topo2ICGC.show = estado;
+
+                } else if (layer == 'orto46') {
+                    orto46.show = estado;
+                }
+
+            }); //fin onclick
+
+            $('#bt_inicial').on('click', function () {
+                vistaIncial()
+            });
+
+            function vistaIncial() {
+                map.camera.flyTo({
+                    destination: Cesium.Cartesian3.fromDegrees(2.1806, 41.4003, 15000)
+                });
+
+
+            }
+
+
+        }); //Fin ready
+    </script>
+
+</head>
+
+<body>
+
+    <div id="capas">
+        <div id="bt_inicial">Inicio</div>
+        <ul>
+            <li>Capas</li>
+            <li>
+                <input type="checkbox" checked value="ortoICGC" class="chk_capes"> ortoICGC
+            </li>
+            <li>
+                <input type="checkbox" value="topoICGC" class="chk_capes"> topoICGC
+            </li>
+            <li>
+                <input type="checkbox" value="topo2ICGC" class="chk_capes"> topo2ICGC
+            </li>
+            <li>
+                <input type="checkbox" value="orto46" class="chk_capes"> orto46
+            </li>
+        </ul>
+    </div>
+
+    <div id="map"></div>
+</body>
+
+</html>

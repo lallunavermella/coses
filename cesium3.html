@@ -1,0 +1,98 @@
+<html lang="es">
+
+<head>
+    <title>Ejemplo 3 Cesium</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="autor" />
+    <meta name="description" content="descripción página">
+    <meta name="robots" content="index,follow">
+    <link rel="stylesheet" href="Cesium/Widgets/widgets.css" />
+    <script src="Cesium/Cesium.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            overflow: hidden;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            height: 100%;
+        }
+    </style>
+    <script>
+        var map;
+        $(document).ready(function () {
+            map = new Cesium.Viewer('map', {
+                /*
+                                imageryProvider: new Cesium.UrlTemplateImageryProvider({
+                                    url: 'https://api.mapbox.com/styles/v1/lallunavermella/cjd3fgblv4a0y2sobhdxhsetc/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoibGFsbHVuYXZlcm1lbGxhIiwiYSI6ImNqY2pnbmd4dTBmeTUycXBnc3F6aXh1Nm0ifQ.o_xtEvrZdwfy-WXP89rcsA'
+                                }),
+                */
+
+
+                imageryProvider: new Cesium.MapboxImageryProvider({
+                    mapId: 'mapbox.satellite',
+                    accessToken: 'pk.eyJ1IjoibGFsbHVuYXZlcm1lbGxhIiwiYSI6ImNqY2pnbmd4dTBmeTUycXBnc3F6aXh1Nm0ifQ.o_xtEvrZdwfy-WXP89rcsA'
+                }),
+
+
+
+                timeline: false,
+                navigationHelpButton: true,
+                scene3DOnly: true,
+                fullscreenButton: true,
+                baseLayerPicker: false,
+                homeButton: false,
+                infoBox: true,
+                sceneModePicker: false,
+                animation: false,
+                geocoder: false,
+                sceneMode: Cesium.SceneMode.SCENE3D,
+                terrainProvider: new Cesium.CesiumTerrainProvider({
+                    url: 'https://assets.agi.com/stk-terrain/world',
+                    requestWaterMask: false,
+                    requestVertexNormals: true
+                })
+
+            });
+
+            map.camera.flyTo({
+                destination: Cesium.Cartesian3.fromDegrees(2.1806, 41.4003, 15000)
+            });
+
+            
+      
+                  var overlay= map.imageryLayers;
+      
+                  var mapBoxTileset=overlay.addImageryProvider(new Cesium.MapboxImageryProvider({
+                  mapId: 'lallunavermella.0gk3ohkj',
+                  accessToken: 'pk.eyJ1IjoibGFsbHVuYXZlcm1lbGxhIiwiYSI6ImNqY2pnbmd4dTBmeTUycXBnc3F6aXh1Nm0ifQ.o_xtEvrZdwfy-WXP89rcsA'
+              }));
+              mapBoxTileset.alpha = 0.5;
+                                
+
+
+        });
+    </script>
+</head>
+
+<body>
+    <div id="map"></div>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<html lang="es">
+        <head>
+            <title>Ejemplo 5 Cesium</title>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="author" content="autor" />
+            <meta name="description" content="descripción página">
+            <meta name="robots" content="index,follow">
+            <link rel="stylesheet" href="Cesium/Widgets/widgets.css" />
+            <script src="Cesium/Cesium.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <style>
+                #map {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 100%;
+                    width: 100%;
+                    margin: 0;
+                    overflow: hidden;
+                    padding: 0;
+                    font-family: sans-serif;
+                }
+                html {
+                    height: 100%;
+                }
+                body {
+                    padding: 0;
+                    margin: 0;
+                    overflow: hidden;
+                    height: 100%;
+                }
+            </style>
+
+            <script>
+                var map, capas, GPX_lyr;
+
+                $(document).ready(function() {
+
+                    map = new Cesium.Viewer('map', {
+
+                        imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
+                            url: '//services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/',
+
+                        }),
+
+                        timeline: false,
+                        navigationHelpButton: true,
+                        scene3DOnly: true,
+                        fullscreenButton: true,
+                        baseLayerPicker: false,
+                        homeButton: false,
+                        infoBox: true,
+                        sceneModePicker: false,
+                        animation: false,
+                        geocoder: false,
+                        shadows: false,
+                        terrainShadows: Cesium.ShadowMode.ENABLED,
+                        sceneMode: Cesium.SceneMode.SCENE3D,
+                        terrainProvider: new Cesium.CesiumTerrainProvider({
+                            url: 'https://assets.agi.com/stk-terrain/world',
+                            requestWaterMask: false,
+                            requestVertexNormals: true
+                        })
+
+                    });
+                    GPX_lyr = Cesium.GeoJsonDataSource.load('datos/ruta.geojson', {
+                        stroke: Cesium.Color.RED,
+                        strokeWidth: 3,
+                        clampToGround:true
+                    });
+
+                    GPX_lyr.then(function(dataSource) {
+                        map.dataSources.add(dataSource);
+                        map.flyTo(dataSource);
+                    });
+
+
+
+                });
+            </script>
+
+        </head>
+        <body>
+        <div id="map"></div>
+        </body>
+        </html>
