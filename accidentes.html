@@ -88,11 +88,11 @@
 
       var diasSemana = ["Dilluns", "Dimarts", "Dimecres", "Dijous", "Divendres", "Dissabte", "Diumenge"];
       var colorDia = ['#e26131', '#d0d378', '#78d3b0', '#78bcd3', '#9e78d3', '#d378cd', '#d37878'];
-    });
+    
       mapboxgl.accessToken = 'pk.eyJ1IjoibGFsbHVuYXZlcm1lbGxhIiwiYSI6ImNqY2pnbmd4dTBmeTUycXBnc3F6aXh1Nm0ifQ.o_xtEvrZdwfy-WXP89rcsA';
       var map = new mapboxgl.Map({
         container: 'map',
-        style: 'mapbox://styles/lallunavermella/cjd3fgblv4a0y2sobhdxhsetcmapbox://styles/lallunavermella/cjd3fgblv4a0y2sobhdxhsetc',
+        style: 'mapbox://styles/lallunavermella/cjd3b3o2u46952rlc244f6fd4',
         center: [2.16859, 41.3954],
         zoom: 13,
         hash: true,
@@ -136,7 +136,7 @@
         }); //fin add layers
 
 
-        creaLeyenda();
+       
 
         $('#slider').on('change', function (e) {
           filtraDias($(this).val());
@@ -148,7 +148,7 @@
 
 
         });//Fin load mapa
-
+        creaLeyenda();
 
         function creaLeyenda() {
           for (i = 0; i < diasSemana.length; i++) {
@@ -172,6 +172,7 @@
         }
 
       }); //fin ready Jquery
+    });
   </script>
 </head>
 

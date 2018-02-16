@@ -1,0 +1,72 @@
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title> Barcelona Verda</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%
+        }
+
+     
+    </style>
+
+    <script>
+        $(document).ready(function () {
+
+            mapboxgl.accessToken =
+                'pk.eyJ1IjoibGFsbHVuYXZlcm1lbGxhIiwiYSI6ImNqY2pnbmd4dTBmeTUycXBnc3F6aXh1Nm0ifQ.o_xtEvrZdwfy-WXP89rcsA';
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/lallunavermella/cjdlyyik314gn2so2vp03tfcl',
+                center: [2.16859, 41.3954],
+                zoom: 12,
+                pitch: 45
+
+            });
+            map.addControl(new mapboxgl.NavigationControl());
+            map.on('load', function () {
+                map.addSource("ronda_verda", {
+                    type: "vector",
+                    url: "mapbox://lallunavermella.46cscc8e"
+                });
+                map.addLayer({
+                        id: "ronda verda",
+                        type: "line",
+                        source: "ronda_verda",
+                        'source-layer': "RONDA_VERDA-68g69w",
+                
+                        paint: {
+            'line-color': '#00ff00',
+            'line-width':5,
+                        }
+                    })
+                });
+               
+          
+
+            });
+    
+    </script>
+</head>
+
+<body>
+    <div id="map"></div>
+   
+    </div>
+</body>
+
+</html>
